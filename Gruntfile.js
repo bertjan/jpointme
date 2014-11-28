@@ -81,8 +81,7 @@ module.exports = function (grunt) {
             plugins: {
                 files: {
                     'build/js/plugins.min.js': [
-                        'bower_components/jquery/dist/jquery.min.js',
-                        'bower_components/bootstrap/js/carousel.js'
+                        'bower_components/jquery/dist/jquery.min.js'
                     ]
                 }
             },
@@ -136,6 +135,7 @@ module.exports = function (grunt) {
 
                         return [
                             connect().use('/' + config.paths.src + '/bower_components', connect.static('./bower_components')),
+                            connect().use('/' + config.paths.src + '/fonts', connect.static('./bower_components/bootstrap/fonts')),
                             connect().use('/' + config.paths.src, connect.static(config.paths.src))
                         ];
                     }
@@ -163,6 +163,7 @@ module.exports = function (grunt) {
 
                         return [
                             connect().use('/' + config.paths.src + '/bower_components', connect.static('./bower_components')),
+                            connect().use('/' + config.paths.src + '/fonts', connect.static('./bower_components/bootstrap/fonts')),
                             connect().use('/' + config.paths.src + '/js', connect.static(config.paths.instrumented + '/' + config.paths.src + '/js')),
                             connect().use('/' + config.paths.src, connect.static(config.paths.src)),
                             connect().use('/' + config.paths.test, connect.static(config.paths.test))
@@ -218,6 +219,15 @@ module.exports = function (grunt) {
                         dest: '<%=config.paths.build%>',
                         src: [
                             'img/{,*/}*.{gif,webp,svg,png,jpg}'
+                        ]
+                    },
+                    {
+                        expand: true,
+                        dot: true,
+                        cwd: 'bower_components/bootstrap',
+                        dest: '<%=config.paths.build%>',
+                        src: [
+                            'fonts/{,*/}*.{eot,svg,ttf,woff}'
                         ]
                     }
                 ]
