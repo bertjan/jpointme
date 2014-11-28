@@ -16,27 +16,27 @@
             }
 
             // Handler for authenticate button
-            $scope.authenticate = function(provider) {
-              AuthenticationService.authenticate(provider)
-                  .then(function(user) {
-                    $log.debug(user);
-                    $scope.user = user;
-                  });
+            $scope.authenticate = function (provider) {
+                AuthenticationService.authenticate(provider)
+                        .then(function (user) {
+                            $log.debug(user);
+                            $scope.user = user;
+                        });
             };
 
-            $scope.isAuthenticated = function() {
+            $scope.isAuthenticated = function () {
                 return AuthenticationService.isAuthenticated();
-            }
+            };
 
             // Handler for logout button
-            $scope.logout = function() {
-              AuthenticationService.logout()
-                  .then(function() {
-                      $scope.user = {
-                          username: "anonymous",
-                          userId: ""
-                      }
-                  });
+            $scope.logout = function () {
+                AuthenticationService.logout()
+                        .then(function () {
+                            $scope.user = {
+                                username: "anonymous",
+                                userId: ""
+                            }
+                        });
             };
 
             // Only perform user data sync when user id authenticated.
@@ -44,12 +44,21 @@
                 UserService.addUser($scope.user.username, $scope.user.userId);
             }
 
-            console.log(SessionService.getSessions());
+            // Get all sessions:
+            //console.log(SessionService.getSessions());
 
             // Pushing a message:
             // MessageService.postMessageToSession('session1', 'hello');
 
-            console.log(MessageService.getMessagesForSession('session1'));
+            // Get all messages:
+            //console.log(MessageService.getMessagesForSession('session1'));
+
+            $scope.messages = MessageService.getMessagesForSession('session1');
+
+            // Watch for new messages. Is this required ???
+            //$scope.messages.$watch(function () {
+            //    console.log('message posted');
+            //});
         }
     ]);
 }());

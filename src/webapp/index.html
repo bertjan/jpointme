@@ -70,8 +70,12 @@
                             <a ng-switch-when="true" ng-href="" data-ng-click="logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                         </ul>
                     </ng-switch>
-
             </div>
+
+            <div>
+                <span data-ng-repeat="message in messages">{{message.text}}</span>
+            </div>
+
         </div>
     </nav>
     </body>
