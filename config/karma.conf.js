@@ -11,10 +11,10 @@ module.exports = function (config) {
                 "bower_components/angular-sanitize/angular-sanitize.js",
                 "bower_components/angular-mocks/angular-mocks.js",
                 "bower_components/jasmine-jquery/lib/jasmine-jquery.js",
-                'test/mocks/**/*.js',
-                'src/js/*.js',
-                'src/js/**/*.js',
-                'test/unit/**/*.js'
+                'test/webapp/mocks/**/*.js',
+                'src/webapp/js/*.js',
+                'src/webapp/js/**/*.js',
+                'test/webapp/unit/**/*.js'
             ],
             exclude: [
             ],
@@ -26,11 +26,11 @@ module.exports = function (config) {
                 'karma-ng-html2js-preprocessor'
             ],
             preprocessors: {
-                'src/partials/*.html': 'html2js',
-                'src/**/*.js': 'coverage'
+                'src/webapp/partials/*.html': 'html2js',
+                'src/webapp/**/*.js': 'coverage'
             },
             ngHtml2JsPreprocessor: {
-                stripPrefix: 'src/'
+                stripPrefix: 'src/webapp/'
             },
             reporters: ['progress', 'coverage', 'junit'],
             junitReporter: {
