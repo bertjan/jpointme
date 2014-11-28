@@ -16,3 +16,5 @@ bower_components
 
 # npm
 node_modules
+
+/src/webapp/css/*.css
