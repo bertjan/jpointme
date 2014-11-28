@@ -13,7 +13,7 @@ angular.module('j.point.me').factory('AuthenticationService', ["$log", "$q", "$t
             auth.$authWithOAuthPopup(provider)
                     .then(function (authData) {
                         $log.info("Logged in as:", authData);
-                        deferred.resolve(authData);
+                        deferred.resolve(getUser(authData));
                     })
                     .catch(function (error) {
                         $log.error("Authentication failed: ", error);
@@ -56,22 +56,20 @@ angular.module('j.point.me').factory('AuthenticationService', ["$log", "$q", "$t
             }
         }
 
-        function getUserName() {
-            var authData = auth.$getAuth();
-            return authData.github.displayName;
+        function getUser(authData) {
+            var authData = authData || auth.$getAuth();
+            return {
+                userId: authData.auth.provider + '/' + authData.auth.uid,
+                username: authData.github.displayName
+            }
         }
 
-        function getUserId() {
-            var authData = auth.$getAuth();
-            return authData.auth.provider + '/' + authData.auth.uid;
-        }
 
         return {
             authenticate: authenticate,
             logout: logout,
             isAuthenticated: isAuthenticated,
-            getUserName: getUserName,
-            getUserId: getUserId
+            getUser: getUser
         }
 
     }]);

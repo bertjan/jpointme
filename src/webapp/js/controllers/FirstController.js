@@ -6,19 +6,21 @@
 
             // Check if the user is already authenticated
             if (AuthenticationService.isAuthenticated()) {
-                $scope.username = AuthenticationService.getUserName();
-                $scope.userId = AuthenticationService.getUserId();
+                $scope.user = AuthenticationService.getUser();
             } else {
-                $scope.username = "anonymous";
-                $scope.userId = "";
+                $scope.user = {
+                    username: "anonymous",
+                    userId: ""
+                }
+
             }
 
             // Handler for authenticate button
             $scope.authenticate = function(provider) {
               AuthenticationService.authenticate(provider)
-                  .then(function(authData) {
-                    $log.debug(authData);
-                    $scope.username = authData.github.displayName;
+                  .then(function(user) {
+                    $log.debug(user);
+                    $scope.user = user;
                   });
             };
 
@@ -26,13 +28,16 @@
             $scope.logout = function() {
               AuthenticationService.logout()
                   .then(function() {
-                    $scope.username = "anonymous";
+                      $scope.user = {
+                          username: "anonymous",
+                          userId: ""
+                      }
                   });
             };
 
             // Only perform user data sync when user id authenticated.
             if (AuthenticationService.isAuthenticated()) {
-                UserService.addUser($scope.username, $scope.userId);
+                UserService.addUser($scope.user.username, $scope.user.userId);
             }
 
             console.log(SessionService.getSessions());
