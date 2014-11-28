@@ -4,6 +4,11 @@
     angular.module('j.point.me').controller('FirstController', ['$scope', '$log', '$firebase', '$firebaseAuth', 'AuthenticationService', 'UserService', 'SessionService', 'MessageService',
         function ($scope, $log, $firebase, $firebaseAuth, AuthenticationService, UserService, SessionService, MessageService) {
 
+            $scope.input =
+            {
+                currentMessage: ""
+            };
+
             // Check if the user is already authenticated
             if (AuthenticationService.isAuthenticated()) {
                 $scope.user = AuthenticationService.getUser();
@@ -24,8 +29,10 @@
                         });
             };
 
-            $scope.isAuthenticated = function () {
-                return AuthenticationService.isAuthenticated();
+            $scope.sendCurrentMessage = function() {
+                $log.debug("try posting current message: " + $scope.input.currentMessage);
+                MessageService.postMessageToSession('session1', $scope.input.currentMessage);
+                $scope.input.currentMessage = "";
             };
 
             // Handler for logout button
