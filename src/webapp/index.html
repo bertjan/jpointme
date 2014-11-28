@@ -72,8 +72,9 @@
                     </ng-switch>
             </div>
 
+            <h1>{{sessionName}}</h1>
             <div>
-                <span data-ng-repeat="message in messages">{{message.text}}</span>
+                <div data-ng-repeat="message in messages">{{message.sender}} -> {{message.text}}</div>
             </div>
 
         </div>
