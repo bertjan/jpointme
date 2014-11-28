@@ -29,6 +29,11 @@
                         });
             };
 
+            $scope.isAuthenticated = function () {
+                return AuthenticationService.isAuthenticated();
+            };
+
+
             $scope.sendCurrentMessage = function() {
                 $log.debug("try posting current message: " + $scope.input.currentMessage);
                 MessageService.postMessageToSession('session1', $scope.input.currentMessage);
