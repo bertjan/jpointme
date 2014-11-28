@@ -1,0 +1,30 @@
+{
+    "users": {
+        "<userid>": {
+            "name" : "user name"
+        }
+    },
+
+    "sessions": {
+        "<sessionId>": {
+            "name" : "session name"
+        }
+    },
+
+    "members": {
+        "<sessionId>": {
+            "<userid>": true,
+            "<userid>": true
+        }
+    },
+
+    "messages": {
+        "<sessionId>" : {
+            "<messageid>" : {
+                "sender" : "<userId>",
+                "text": "bla",
+                "time": ""
+            }
+        }
+    }
+}
