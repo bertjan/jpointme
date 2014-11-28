@@ -1,0 +1,4 @@
+{
+  "main": "nl.jpoint.jpointme.verticle.Runner",
+  "auto-redeploy": true
+}
