@@ -1,5 +1,5 @@
-angular.module('j.point.me').factory('MessageService', ['$firebase',
-    function ($firebase) {
+angular.module('j.point.me').factory('MessageService', ['$firebase', 'AuthenticationService',
+    function ($firebase, AuthenticationService) {
 
         var ref = new Firebase("https://jpointme.firebaseio.com/");
 
@@ -16,20 +16,25 @@ angular.module('j.point.me').factory('MessageService', ['$firebase',
              * Returns all the messages for a specific session.
              */
             getMessagesForSession: function(sessionId) {
-                var allMessagesPerSession = $firebase(ref.child("messages")).$asArray();
+                var allMessagesPerSession = $firebase(ref.child("messages").child(sessionId)).$asArray();
+                return allMessagesPerSession;
+            },
 
-                allMessagesPerSession.$loaded().then(function() {
+            /**
+             * Posts a message to the specified session.
+             */
+            postMessageToSession: function(sessionId, text) {
 
-                    angular.forEach(allMessagesPerSession, function(session) {
-                       if (session.$id === sessionId) {
-                           return session;
-                       }
-                    });
+                var messages = this.getMessagesForSession(sessionId);
 
+                messages.$add({
+                    sender: AuthenticationService.getUser().username,
+                    text: text,
+                    time: new Date().getTime()
                 });
 
-                return allMessagesPerSession;
             }
         }
     }
 ]);
+

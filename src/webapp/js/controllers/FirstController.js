@@ -45,6 +45,10 @@
             }
 
             console.log(SessionService.getSessions());
+
+            // Pushing a message:
+            // MessageService.postMessageToSession('session1', 'hello');
+
             console.log(MessageService.getMessagesForSession('session1'));
         }
     ]);
