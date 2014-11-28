@@ -18,7 +18,8 @@ angular.module('j.point.me').factory('UserService', ['$firebase',
             addUser: function (username, userId) {
                 var userExists = false;
 
-                this.getUsers().$asArray()
+                var users = this.getUsers();
+                users.$asArray()
                         .$loaded()
                         .then(function (data) {
                             angular.forEach(data, function (user, index) {
