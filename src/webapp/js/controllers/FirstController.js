@@ -5,23 +5,31 @@
         function ($scope, $firebase, $firebaseAuth) {
 
             var ref = new Firebase("https://jpointme.firebaseio.com/");
-            $scope.username = "anonymous";
+            var auth = $firebaseAuth(ref);
 
-            $scope.authenticate = function(provider) {
-              var auth = $firebaseAuth(ref);
-              auth.$authWithOAuthPopup("github").then(function(authData) {
-                console.log("Logged in as:", authData);
-                $scope.username = authData.github.displayName;
-              }).catch(function(error) {
-                console.error("Authentication failed: ", error);
-              });
+            if (auth.$getAuth()) {
+               $scope.username = auth.$getAuth().github.displayName;
+            } else {
+                $scope.username = "anonymous";
+            }
+
+            $scope.authenticate = function (provider) {
+                var auth = $firebaseAuth(ref);
+                auth.$authWithOAuthPopup("github").then(function (authData) {
+                    console.log("Logged in as:", authData);
+                    $scope.username = authData.github.displayName;
+                }).catch(function (error) {
+                    console.error("Authentication failed: ", error);
+                });
             };
 
-            $scope.logout = function() {
-              ref.unauth().then(function() {
-                $scope.username = "anonymous";
-              });
+            $scope.logout = function () {
+                ref.unauth().then(function () {
+                    $scope.username = "anonymous";
+                });
             };
         }
     ]);
 }());
+
+
