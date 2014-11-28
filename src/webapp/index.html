@@ -72,15 +72,26 @@
                     </ng-switch>
             </div>
 
-            <h1>{{sessionName}}</h1>
-            <div>
-                <div data-ng-repeat="message in messages">{{message.sender}} -> {{message.text}}</div>
+            <div class="container-fluid" style="border-top: 1px solid lightgrey;">
+                <br />
+                <div class="row">
+
+                    <div class="col-xs-12 col-md-6 col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">{{sessionName}}</div>
+                            <div class="panel-body pre-scrollable">
+                                <div data-ng-repeat="message in messages">
+                                    <span class="h6">{{message.sender}}</span>
+                                    <blockquote>{{message.text}}</blockquote>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel">
+                        <input type="text" ng-model="input.currentMessage"/><button ng-click="sendCurrentMessage()">Post</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
-
-        <div class="container">
-            <input type="text" ng-model="input.currentMessage"/><button ng-click="sendCurrentMessage()">Post</button>
         </div>
     </nav>
     </body>
