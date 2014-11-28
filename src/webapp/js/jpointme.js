@@ -1,1 +1,1 @@
-angular.module('j.point.me', []);
+angular.module('j.point.me', ['firebase']);

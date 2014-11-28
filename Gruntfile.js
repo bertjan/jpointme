@@ -78,7 +78,9 @@ module.exports = function (grunt) {
                 files: {
                     'build/js/plugins.min.js': [
                         'bower_components/jquery/dist/jquery.min.js',
-                        'bower_components/bootstrap/js/carousel.js'
+                        'bower_components/bootstrap/js/carousel.js',
+                        'bower_components/firebase/firebase.js',
+                        'bower_components/angularfire/dist/angularfire.min.js'
                     ]
                 }
             },
