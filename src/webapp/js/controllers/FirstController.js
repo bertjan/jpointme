@@ -1,23 +1,19 @@
 (function () {
     'use strict';
 
-    angular.module('j.point.me').controller('FirstController', ['$scope', '$log', '$firebase', '$firebaseAuth', 'AuthenticationService',
-        function ($scope, $log, $firebase, $firebaseAuth, AuthenticationService) {
+    angular.module('j.point.me').controller('FirstController', ['$scope', '$log', '$firebase', '$firebaseAuth', 'AuthenticationService', 'UserService',
+        function ($scope, $log, $firebase, $firebaseAuth, AuthenticationService, UserService) {
 
-            var ref = new Firebase("https://jpointme.firebaseio.com/");
-            var auth = $firebaseAuth(ref);
-
-            var authData = auth.$getAuth();
-            if (authData) {
-                $scope.username = authData.github.displayName;
-                $scope.userId = authData.auth.provider + '/' + authData.auth.uid;
+            if (AuthenticationService.isAuthenticated()) {
+                $scope.username = AuthenticationService.getUserName();
+                $scope.userId = AuthenticationService.getUserId();
             } else {
                 $scope.username = "anonymous";
                 $scope.userId = "";
             }
-            
+
             $scope.authenticate = function(provider) {
-              AuthenticationService.authenticate(ref, provider)
+              AuthenticationService.authenticate(provider)
                   .then(function(authData) {
                     $log.debug(authData);
                     $scope.username = authData.github.displayName;
@@ -25,16 +21,16 @@
             };
 
             $scope.logout = function() {
-              AuthenticationService.logout(ref)
+              AuthenticationService.logout()
                   .then(function() {
                     $scope.username = "anonymous";
                   });
             };
 
             // Only perform user data sync when user id authenticated.
-            if (auth.$getAuth()) {
+            if (AuthenticationService.isAuthenticated()) {
 
-                var users = $firebase(ref.child("users"));
+                var users = UserService.getUsers()
                 var userExists = false;
 
                 users.$asArray()

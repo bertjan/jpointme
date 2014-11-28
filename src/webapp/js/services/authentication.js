@@ -1,20 +1,24 @@
 angular.module('j.point.me').factory('AuthenticationService', ["$log", "$q", "$timeout", "$firebaseAuth",
-    function($log, $q, $timeout, $firebaseAuth) {
+    function ($log, $q, $timeout, $firebaseAuth) {
 
-        function authenticate(firebaseref, provider) {
-            var auth = $firebaseAuth(firebaseref);
+        var ref = new Firebase("https://jpointme.firebaseio.com/");
+        var auth = $firebaseAuth(ref);
+
+
+        function authenticate(provider) {
+            var auth = $firebaseAuth(ref);
 
             var deferred = $q.defer();
 
             auth.$authWithOAuthPopup(provider)
-                .then(function(authData) {
-                    $log.info("Logged in as:", authData);
-                    deferred.resolve(authData);
-                })
-                .catch(function(error) {
-                    $log.error("Authentication failed: ", error);
-                    deferred.reject(error);
-                });
+                    .then(function (authData) {
+                        $log.info("Logged in as:", authData);
+                        deferred.resolve(authData);
+                    })
+                    .catch(function (error) {
+                        $log.error("Authentication failed: ", error);
+                        deferred.reject(error);
+                    });
 
             return deferred.promise;
         }
@@ -23,20 +27,20 @@ angular.module('j.point.me').factory('AuthenticationService', ["$log", "$q", "$t
 
         }
 
-        function logout(firebaseref) {
-            var auth = $firebaseAuth(firebaseref);
+        function logout() {
+            var auth = $firebaseAuth(ref);
 
             var deferred = $q.defer();
-            deferred.promise.then(function() {
+            deferred.promise.then(function () {
                 $log.info("Logged off.");
                 deferred.resolve();
             })
-            .catch(function(error) {
-                $log.error("Logoff failed: ", error);
-                deferred.reject(error);
-            });
+                    .catch(function (error) {
+                        $log.error("Logoff failed: ", error);
+                        deferred.reject(error);
+                    });
 
-            $timeout(function() {
+            $timeout(function () {
                 auth.$unauth();
                 deferred.resolve();
             }, 10);
@@ -44,9 +48,30 @@ angular.module('j.point.me').factory('AuthenticationService', ["$log", "$q", "$t
             return deferred.promise;
         }
 
+        function isAuthenticated() {
+            if (auth.$getAuth()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function getUserName() {
+            var authData = auth.$getAuth();
+            return authData.github.displayName;
+        }
+
+        function getUserId() {
+            var authData = auth.$getAuth();
+            return authData.auth.provider + '/' + authData.auth.uid;
+        }
+
         return {
             authenticate: authenticate,
-            logout: logout
+            logout: logout,
+            isAuthenticated: isAuthenticated,
+            getUserName: getUserName,
+            getUserId: getUserId
         }
 
     }]);
