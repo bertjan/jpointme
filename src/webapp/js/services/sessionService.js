@@ -10,7 +10,12 @@ angular.module('j.point.me').factory('SessionService', ['$firebase',
              */
             getSessions: function () {
                 return $firebase(ref.child("sessions")).$asArray();
+            },
+
+            getSession: function(sessionId){
+                return $firebase(ref.child("sessions").child(sessionId)).$asObject();
             }
+
         }
     }
 ]);

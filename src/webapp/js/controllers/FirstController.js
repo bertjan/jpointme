@@ -60,7 +60,13 @@
             // Get all messages:
             //console.log(MessageService.getMessagesForSession('session1'));
 
-            $scope.sessionName = 'session1';
+            var sessionId = 'session1';
+            SessionService.getSession(sessionId)
+                .$loaded()
+                .then(function(data) {
+                    $scope.sessionName = data.name;
+                });
+
             $scope.messages = MessageService.getMessagesForSession('session1');
 
             // Watch for new messages. Is this required ???
