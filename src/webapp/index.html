@@ -60,7 +60,7 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                        <li class="disabled"><a ng-href="">Hi {{username}}</a></li>
+                        <li class="disabled"><a ng-if="isAuthenticated()" ng-href="">Hi {{username}}</a></li>
                 </ul>
                     <ng-switch on="isAuthenticated()">
                         <ul class="nav navbar-nav navbar-right">
