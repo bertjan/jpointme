@@ -30,7 +30,7 @@ angular.module('j.point.me').factory('MessageService', ['$firebase', 'Authentica
                 messages.$add({
                     sender: AuthenticationService.getUser().username,
                     text: text,
-                    time: new Date().getTime()
+                    time: Firebase.ServerValue.TIMESTAMP
                 });
 
             }
