@@ -25,7 +25,7 @@
             };
 
             $scope.isAuthenticated = function() {
-                return !angular.equals($scope.username, 'anonymous');
+                return AuthenticationService.isAuthenticated();
             }
 
             // Handler for logout button
