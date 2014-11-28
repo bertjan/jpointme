@@ -75,9 +75,10 @@
             $scope.messages = MessageService.getMessagesForSession('session1');
 
             // Watch for new messages. Is this required ???
-            //$scope.messages.$watch(function () {
-            //    console.log('message posted');
-            //});
+            $scope.messages.$watch(function () {
+                var div = $('#messages');
+                div.scrollTop(div[0].scrollHeight);
+            });
         }
     ]);
 }());
