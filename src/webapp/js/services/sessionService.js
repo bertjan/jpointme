@@ -3,15 +3,14 @@ angular.module('j.point.me').factory('SessionService', ['$firebase',
 
         var ref = new Firebase("https://jpointme.firebaseio.com/");
 
-        /**
-         * Returns the all the sessions that are stored in firebase.
-         */
-        function getSessions() {
-            return $firebase(ref.child("sessions")).$asArray();
-        }
-
         return {
-            getSessions: getSessions
-        }
 
-    }]);
+            /**
+             * Returns the all the sessions that are stored in firebase.
+             */
+            getSessions: function () {
+                return $firebase(ref.child("sessions")).$asArray();
+            }
+        }
+    }
+]);
