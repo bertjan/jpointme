@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('j.point.me').controller('FirstController', ['$scope', '$firebase', '$firebaseAuth',
-        function ($scope, $firebase, $firebaseAuth) {
+    angular.module('j.point.me').controller('FirstController', ['$scope', '$firebase', '$firebaseAuth', '$window',
+        function ($scope, $firebase, $firebaseAuth, $window) {
 
             var ref = new Firebase("https://jpointme.firebaseio.com/");
             var auth = $firebaseAuth(ref);
@@ -24,9 +24,8 @@
             };
 
             $scope.logout = function () {
-                ref.unauth().then(function () {
-                    $scope.username = "anonymous";
-                });
+                ref.unauth();
+                $window.location.reload();
             };
         }
     ]);
