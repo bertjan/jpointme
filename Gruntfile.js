@@ -133,8 +133,7 @@ module.exports = function (grunt) {
             return [
               connect().use('/' + config.paths.src + '/bower_components', connect.static('./bower_components')),
               connect().use('/' + config.paths.src + '/js', connect.static(config.paths.instrumented + '/' + config.paths.src + '/js')),
-              connect().use('/' + config.paths.src, connect.static(config.paths.src)),
-              connect().use('/test', connect.static(config.paths.test))
+              connect().use('/' + config.paths.src, connect.static(config.paths.src))
             ];
           }
         }
@@ -146,10 +145,10 @@ module.exports = function (grunt) {
             var config = grunt.config.get('config');
 
             return [
-              connect().use('/src/bower_components', connect.static('./bower_components')),
-              connect().use('/src/js', connect.static(config.paths.instrumented + '/' + config.paths.src + '/js')),
-              connect().use('/src', connect.static(config.paths.src)),
-              connect().use('/test', connect.static(config.paths.test))
+              connect().use('/' + config.paths.src + '/bower_components', connect.static('./bower_components')),
+              connect().use('/' + config.paths.src + '/js', connect.static(config.paths.instrumented + '/' + config.paths.src + '/js')),
+              connect().use('/' + config.paths.src, connect.static(config.paths.src)),
+              connect().use('/' + config.paths.test, connect.static(config.paths.test))
             ];
           }
         }
@@ -242,7 +241,7 @@ module.exports = function (grunt) {
     shell: {
       bowerupdate: {
         command: function () {
-          return 'bower update';
+          return './node_modules/bower/bin/bower update';
         }
       }
     }
