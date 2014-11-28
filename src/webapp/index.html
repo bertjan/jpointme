@@ -21,6 +21,7 @@
 
         <!-- build:js js/plugins.min.js -->
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/js/collapse.js"></script>
         <!-- endbuild -->
 
         <!-- build:js js/angular.min.js -->
@@ -45,25 +46,32 @@
         <!-- endbuild -->
 
     </head>
-    <body ng-app="j.point.me">
-    <div class="container-fluid">
-        <div class="header container">
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="container" data-ng-controller="FirstController">
-                    <div class="navbar-header">
-                        <img alt="Brand" src="img/jpoint.jpg" style="width: 201px">
+    <body ng-app="j.point.me" data-ng-controller="FirstController">
 
-                        <div>
-                            Hello {{username}}
-                        </div>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><strong><span style="color:#79B43E;">J</span><span style="color:#747577">point</span></strong></span><span style="color:#79B43E;"><sub>.me</sub></span></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                        <li class="disabled"><a ng-href="">Hi {{username}}</a></li>
+                </ul>
+                    <ng-switch on="isAuthenticated()">
+                        <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a ng-switch-when="false" ng-href="" data-ng-click="authenticate('github')"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                            <a ng-switch-when="true" ng-href="" data-ng-click="logout()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                        </ul>
+                    </ng-switch>
 
-                        <button data-ng-click="authenticate('github')">Github authentication</button>
-                        <button data-ng-click="logout()">Logout</button>
-
-                    </div>
-                </div>
-            </nav>
+            </div>
         </div>
-    </div>
+    </nav>
     </body>
 </html>

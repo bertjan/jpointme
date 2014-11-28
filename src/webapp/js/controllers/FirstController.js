@@ -22,6 +22,10 @@
                   });
             };
 
+            $scope.isAuthenticated = function() {
+                return !angular.equals($scope.username, 'anonymous');
+            }
+
             // Handler for logout button
             $scope.logout = function() {
               AuthenticationService.logout()
