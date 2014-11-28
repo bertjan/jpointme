@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    angular.module('j.point.me').controller('FirstController', ['$scope', '$log', '$firebase', '$firebaseAuth', 'AuthenticationService', 'UserService',
-        function ($scope, $log, $firebase, $firebaseAuth, AuthenticationService, UserService) {
+    angular.module('j.point.me').controller('FirstController', ['$scope', '$log', '$firebase', '$firebaseAuth', 'AuthenticationService', 'UserService', 'SessionService',
+        function ($scope, $log, $firebase, $firebaseAuth, AuthenticationService, UserService, SessionService) {
 
             // Check if the user is already authenticated
             if (AuthenticationService.isAuthenticated()) {
@@ -34,6 +34,8 @@
             if (AuthenticationService.isAuthenticated()) {
                 UserService.addUser($scope.username, $scope.userId);
             }
+
+            console.log(SessionService.getSessions());
         }
     ]);
 }());
