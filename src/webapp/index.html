@@ -87,12 +87,13 @@
                                         {{message.text}}
                                 </div>
                             </div>
+                            <div class="panel-footer">
+                                <form ng-submit="someAction()">
+                                    <input type="text" class="form-control" ng-model="input.currentMessage"/><button style="display: none;" type="submit" ng-click="sendCurrentMessage()">Post</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="panel">
-                            <form ng-submit="someAction()">
-                                <input type="text" class="form-control" ng-model="input.currentMessage"/><button type="submit" ng-click="sendCurrentMessage()">Post</button>
-                            </form>
-                        </div>
+
                     </div>
                 </div>
             </div>
