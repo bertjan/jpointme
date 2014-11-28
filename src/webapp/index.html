@@ -21,6 +21,7 @@
 
         <!-- build:js js/plugins.min.js -->
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <!-- endbuild -->
 
         <!-- build:js js/angular.min.js -->
@@ -48,17 +49,17 @@
     </head>
     <body ng-app="j.point.me" data-ng-controller="FirstController">
 
-    <nav class="navbar">
+    <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#"><strong><span style="color:#79B43E;">J</span><span style="color:#747577">point</span></strong></span><span style="color:#79B43E;"><sub>.me</sub></span></a>
             </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
+            <div class="collapse navbar-collapse" id="navigation">
                 <ul class="nav navbar-nav">
                         <li class="disabled"><a ng-if="isAuthenticated()" ng-href="">Hi {{user.username}}</a></li>
                 </ul>
