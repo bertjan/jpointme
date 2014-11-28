@@ -20,6 +20,10 @@
 
             }
 
+            $scope.triggerToggle = function() {
+                $('.collapse').collapse()
+            }
+
             // Handler for authenticate button
             $scope.authenticate = function (provider) {
                 AuthenticationService.authenticate(provider)
