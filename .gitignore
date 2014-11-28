@@ -7,10 +7,12 @@
 *.log
 
 # build directories
+build
 .tmp
+results
 
 # bower
-bowe_components
+bower_components
 
 # npm
 node_modules
