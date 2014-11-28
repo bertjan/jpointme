@@ -132,7 +132,6 @@ module.exports = function (grunt) {
 
                         return [
                             connect().use('/' + config.paths.src + '/bower_components', connect.static('./bower_components')),
-                            connect().use('/' + config.paths.src + '/js', connect.static(config.paths.instrumented + '/' + config.paths.src + '/js')),
                             connect().use('/' + config.paths.src, connect.static(config.paths.src))
                         ];
                     }
@@ -266,6 +265,15 @@ module.exports = function (grunt) {
         'portPick',
         'package',
         'connect:dist',
+        'watch'
+    ]);
+
+
+    grunt.registerTask('serve-runtime', 'Serve the app.', [
+        'clean',
+        'portPick',
+        'package',
+        'connect:runtime',
         'watch'
     ]);
 
