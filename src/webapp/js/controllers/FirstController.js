@@ -7,10 +7,13 @@
             var ref = new Firebase("https://jpointme.firebaseio.com/");
             var auth = $firebaseAuth(ref);
 
-            if (auth.$getAuth()) {
-               $scope.username = auth.$getAuth().github.displayName;
+            var authData = auth.$getAuth();
+            if (authData) {
+                $scope.username = authData.github.displayName;
+                $scope.userId = authData.auth.provider + '/' + authData.auth.uid;
             } else {
                 $scope.username = "anonymous";
+                $scope.userId = "";
             }
 
             $scope.authenticate = function (provider) {
@@ -27,6 +30,30 @@
                 ref.unauth();
                 $window.location.reload();
             };
+
+
+            var users = $firebase(ref.child("users"));
+            var userExists = false;
+
+            users.$asArray()
+              .$loaded()
+              .then(function(data) {
+                  angular.forEach(data,function(user,index){
+                      if (user.oAuthId === $scope.userId) {
+                          userExists = true;
+                      }
+                  })
+              }).then(function(data) {
+                  if (!userExists) {
+                      users.$push({name: $scope.username, oAuthId: $scope.userId}).then(function(newChildRef) {
+                          console.log('user with userId ' + $scope.userId + ' does not exist; adding');
+                      });
+                  } else {
+                        console.log('user with userId ' + $scope.userId + ' already exists; not adding.');
+                  }
+              });
+
+
         }
     ]);
 }());
