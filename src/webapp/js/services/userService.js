@@ -12,30 +12,25 @@ angular.module('j.point.me').factory('UserService', ['$firebase',
                 return $firebase(ref.child("users"));
             },
 
+
+
             /**
              * Adds a user with the specified username and user id to firebase.
              */
             addUser: function (username, userId) {
-                var userExists = false;
+
 
                 var users = this.getUsers();
-                users.$asArray()
-                        .$loaded()
-                        .then(function (data) {
-                            angular.forEach(data, function (user, index) {
-                                if (user.oAuthId === userId) {
-                                    userExists = true;
-                                }
-                            })
-                        }).then(function (data) {
-                            if (!userExists) {
-                                users.$push({name: username, oAuthId: userId}).then(function (newChildRef) {
-                                    console.log('user with userId ' + userId + ' does not exist; adding');
-                                });
-                            } else {
-                                console.log('user with userId ' + userId + ' already exists; not adding.');
-                            }
+
+                var user = users.$ref().orderByChild("oAuthId").equalTo(userId).once('value', function(snap) {
+                    if (!snap.exists()){
+                        users.$push({name: $scope.username, oAuthId: userId}).then(function (newChildRef) {
+                            console.log('user with userId ' + userId + ' does not exist; adding');
                         });
+                    }else{
+                        console.log('user with userId ' + userId + ' already exists; not adding.');
+                    }
+                });
             }
         }
 
