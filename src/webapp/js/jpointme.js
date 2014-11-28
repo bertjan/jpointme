@@ -1,1 +1,1 @@
-angular.module('j.point.me', ['firebase']);
+angular.module('j.point.me', ['firebase', 'ngTouch']);

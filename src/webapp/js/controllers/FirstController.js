@@ -72,6 +72,7 @@
             SessionService.getSession(sessionId)
                 .$loaded()
                 .then(function(data) {
+                    console.log(data)
                     $scope.sessionName = data.name;
                 });
 
