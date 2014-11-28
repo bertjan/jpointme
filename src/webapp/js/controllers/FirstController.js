@@ -10,23 +10,23 @@
             // Use timeout to prevent the synchronous call to hold the controller initialization
             $timeout(function () {
 
-                var auth = ref.getAuth();
-                if (!auth) {
-                    var auth = $firebaseAuth(ref);
-                    auth.$authWithOAuthRedirect("github").then(function (authData) {
-                        console.log("Logged in as:", authData);
+                var auth = $firebaseAuth(ref);
+                console.log('loading controller', auth.$getAuth());
+
+                if (!auth.$getAuth()) {
+
+                    auth.$authWithOAuthPopup("github").then(function (authData) {
+                        console.log("Logged in as:", authData.github.displayName);
+
+                        $scope.username = authData ? authData.github.displayName : "anonymous";
 
                     }).catch(function (error) {
                         console.error("Authentication failed: ", error);
                     });
+                } else {
+                    $scope.username = auth.$getAuth().github.displayName;
                 }
 
-                $scope.username = auth ? auth.github.displayName : "anonymous";
-
-                // create an AngularFire reference to the data
-                var sync = $firebase(ref);
-                // download the data into a local object
-                $scope.data = sync.$asObject();
             }, 10);
         }
     ]);
