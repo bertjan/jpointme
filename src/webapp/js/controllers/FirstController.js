@@ -4,6 +4,7 @@
     angular.module('j.point.me').controller('FirstController', ['$scope', '$log', '$firebase', '$firebaseAuth', 'AuthenticationService', 'UserService',
         function ($scope, $log, $firebase, $firebaseAuth, AuthenticationService, UserService) {
 
+            // Check if the user is already authenticated
             if (AuthenticationService.isAuthenticated()) {
                 $scope.username = AuthenticationService.getUserName();
                 $scope.userId = AuthenticationService.getUserId();
@@ -12,6 +13,7 @@
                 $scope.userId = "";
             }
 
+            // Handler for authenticate button
             $scope.authenticate = function(provider) {
               AuthenticationService.authenticate(provider)
                   .then(function(authData) {
@@ -20,6 +22,7 @@
                   });
             };
 
+            // Handler for logout button
             $scope.logout = function() {
               AuthenticationService.logout()
                   .then(function() {
@@ -29,27 +32,7 @@
 
             // Only perform user data sync when user id authenticated.
             if (AuthenticationService.isAuthenticated()) {
-
-                var users = UserService.getUsers()
-                var userExists = false;
-
-                users.$asArray()
-                    .$loaded()
-                    .then(function (data) {
-                        angular.forEach(data, function (user, index) {
-                            if (user.oAuthId === $scope.userId) {
-                                userExists = true;
-                            }
-                        })
-                    }).then(function (data) {
-                        if (!userExists) {
-                            users.$push({name: $scope.username, oAuthId: $scope.userId}).then(function (newChildRef) {
-                                console.log('user with userId ' + $scope.userId + ' does not exist; adding');
-                            });
-                        } else {
-                            console.log('user with userId ' + $scope.userId + ' already exists; not adding.');
-                        }
-                    });
+                UserService.addUser($scope.username, $scope.userId);
             }
         }
     ]);
