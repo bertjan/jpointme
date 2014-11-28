@@ -13,8 +13,8 @@ module.exports = function (grunt) {
             paths: {
                 tmp: '.tmp',
                 base: require('path').resolve(),
-                src: 'src',
-                test: 'test',
+                src: 'src/webapp',
+                test: 'test/webapp',
                 results: 'results',
                 instrumented: 'instrumented',
                 config: 'config',
@@ -85,8 +85,8 @@ module.exports = function (grunt) {
             jpointme: {
                 files: {
                     '.tmp/js/jpointme.js': [
-                        'src/js/jpointme.js',
-                        'src/js/**/*.js']
+                        '<%=config.paths.src%>/js/jpointme.js',
+                        '<%=config.paths.src%>/js/**/*.js']
                 }
             }
         },
@@ -125,16 +125,16 @@ module.exports = function (grunt) {
             runtime: {
                 options: {
                     open: {
-                        target: 'http://<%= config.hosts.runtime%>:<%= connect.options.port%>/src'
+                        target: 'http://<%= config.hosts.runtime%>:<%= connect.options.port%>/<%=config.paths.src%>'
                     },
                     middleware: function (connect) {
                         var config = grunt.config.get('config');
 
                         return [
-                            connect().use('/src/bower_components', connect.static('./bower_components')),
-                            connect().use('/src/build/js', connect.static('./build/js')),
-                            connect().use('/src/js', connect.static(config.paths.src + '/' + config.paths.src + '/js')),
-                            connect().use('/src', connect.static(config.paths.src))
+                            connect().use('/' + config.paths.src + '/bower_components', connect.static('./bower_components')),
+                            connect().use('/' + config.paths.src + '/js', connect.static(config.paths.instrumented + '/' + config.paths.src + '/js')),
+                            connect().use('/' + config.paths.src, connect.static(config.paths.src)),
+                            connect().use('/test', connect.static(config.paths.test))
                         ];
                     }
                 }
@@ -148,9 +148,8 @@ module.exports = function (grunt) {
                         return [
                             connect().use('/src/bower_components', connect.static('./bower_components')),
                             connect().use('/src/js', connect.static(config.paths.instrumented + '/' + config.paths.src + '/js')),
-                            connect().use('/src', connect.static(config.paths.src))
-                            //,
-//                            connect().use('/test', connect.static(config.paths.test))
+                            connect().use('/src', connect.static(config.paths.src)),
+                            connect().use('/test', connect.static(config.paths.test))
                         ];
                     }
                 }
@@ -258,7 +257,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', 'Execute tests.', [
         'force:on',
         'jshint',
-        'karma',
+        'karma'
 //        'instrument',
 //        'connect:test',
 //        'protractor_coverage',
